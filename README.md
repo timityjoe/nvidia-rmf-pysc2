@@ -36,7 +36,10 @@ pyenv virtualenv $(sed "s/\/envs\// /" .python-version)
 pip install --upgrade pip wheel
 
 # install dependencies for running the training script
+See https://pytorch.org/get-started/locally/
+```
 pip install -r requirements.txt
+pip3 install torch torchvision torchaudio
 ```
 
 ## Get started
@@ -44,12 +47,7 @@ pip install -r requirements.txt
 To test installation, run the following code.
 
 ```
-python3 ppo_sc2.py \
-    --gym-id SC2MoveToBeacon-v0 \
-    --num-envs 1 \
-    --num-steps 256 \
-    --cuda True \
-    --capture-video
+python3 ppo_sc2.py --gym-id SC2MoveToBeacon-v0 --num-envs 1 --num-steps 256 --cuda True --capture-video
 ```
 
 Then open another terminal to check tensorboard

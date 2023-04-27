@@ -27,17 +27,17 @@ portpicker==1.4.0
 protobuf==3.17.3
 pyasn1==0.4.8
 pyasn1-modules==0.2.8
-pygame==2.0.1
+# pygame==2.0.1
 pyglet==1.5.15
 pyparsing==2.4.7
-PySC2==3.0.0
+# PySC2==3.0.0
 python-dateutil==2.8.1
 pytz==2021.1
 requests==2.25.1
 requests-oauthlib==1.3.0
 rsa==4.7.2
-s2clientprotocol==5.0.7.84643.0
-s2protocol==5.0.7.84643.0
+# s2clientprotocol==5.0.7.84643.0
+# s2protocol==5.0.7.84643.0
 scipy==1.6.3
 six==1.16.0
 sk-video==1.1.10
@@ -51,3 +51,4 @@ urllib3==1.26.5
 websocket-client==1.1.0
 Werkzeug==2.0.1
 whichcraft==0.6.1
+argparse

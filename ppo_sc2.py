@@ -21,8 +21,15 @@ import random
 import os
 from stable_baselines3.common.vec_env import DummyVecEnv, SubprocVecEnv, VecEnvWrapper
 
+ # Mod by Tim:
+parser = argparse.ArgumentParser(description='PPO agent')
+# args = parser.parse_args()
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='PPO agent')
+    # Mod by Tim:
+    print("if __name__() constructor:")
+    # parser = argparse.ArgumentParser(description='PPO agent')
+
     # Common arguments
     parser.add_argument('--exp-name', type=str, default=os.path.basename(__file__).rstrip(".py"),
                         help='the name of this experiment')
@@ -83,13 +90,17 @@ if __name__ == "__main__":
     parser.add_argument('--clip-vloss', type=lambda x:bool(strtobool(x)), default=True, nargs='?', const=True,
                           help='Toggles wheter or not to use a clipped loss for the value function, as per the paper.')
 
-    args = parser.parse_args()
-    if not args.seed:
-        args.seed = int(time.time())
+# Mod by Tim:
+args = parser.parse_args()
+# args = vars(parser.parse_args())
+# print(args.filename, args.count, args.verbose)
 
-    # PySC2 logic:
-    FLAGS = flags.FLAGS
-    FLAGS(['ppo_sc2.py'])
+if not args.seed:
+    args.seed = int(time.time())
+
+# PySC2 logic:
+FLAGS = flags.FLAGS
+FLAGS(['ppo_sc2.py'])
 args.batch_size = int(args.num_envs * args.num_steps)
 args.minibatch_size = int(args.batch_size // args.n_minibatch)
 
@@ -114,14 +125,14 @@ class VecPyTorch(VecEnvWrapper):
         return obs, reward, done, info
 
 # TRY NOT TO MODIFY: setup the environment
-experiment_name = f"{args.gym_id}__{args.exp_name}__{args.seed}__{int(time.time())}"
-writer = SummaryWriter(f"runs/{experiment_name}")
+experiment_name = "{args.gym_id}__{args.exp_name}__{args.seed}__{int(time.time())}"
+writer = SummaryWriter("runs/{experiment_name}")
 writer.add_text('hyperparameters', "|param|value|\n|-|-|\n%s" % (
-        '\n'.join([f"|{key}|{value}|" for key, value in vars(args).items()])))
+        '\n'.join(["|{key}|{value}|" for key, value in vars(args).items()])))
 if args.prod_mode:
     import wandb
     wandb.init(project=args.wandb_project_name, entity=args.wandb_entity, sync_tensorboard=True, config=vars(args), name=experiment_name, monitor_gym=True, save_code=True)
-    writer = SummaryWriter(f"/tmp/{experiment_name}")
+    writer = SummaryWriter("/tmp/{experiment_name}")
 
 # TRY NOT TO MODIFY: seeding
 device = torch.device('cuda' if torch.cuda.is_available() and args.cuda else 'cpu')
@@ -135,7 +146,7 @@ def make_env(gym_id, seed, idx):
         env = gym.wrappers.RecordEpisodeStatistics(env)
         if args.capture_video:
             if idx == 0:
-                env = Monitor(env, f'videos/{experiment_name}')
+                env = Monitor(env, 'videos/{experiment_name}')
         env.seed(seed)
         env.action_space.seed(seed)
         env.observation_space.seed(seed)
@@ -303,7 +314,7 @@ for update in range(1, num_updates+1):
 
         for info in infos:
             if 'episode' in info.keys():
-                print(f"global_step={global_step}, episode_reward={info['episode']['r']}")
+                print("global_step={global_step}, episode_reward={info['episode']['r']}")
                 writer.add_scalar("charts/episode_reward", info['episode']['r'], global_step)
                 break
 

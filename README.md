@@ -44,7 +44,7 @@ pip install -r requirements.txt
 To test installation, run the following code.
 
 ```
-python ppo_sc2.py \
+python3 ppo_sc2.py \
     --gym-id SC2MoveToBeacon-v0 \
     --num-envs 1 \
     --num-steps 256 \
